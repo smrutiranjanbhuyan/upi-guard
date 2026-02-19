@@ -1,0 +1,12 @@
+pandas
+numpy
+scikit-learn
+xgboost
+networkx
+imbalanced-learn
+fastapi
+uvicorn
+streamlit
+requests
+shap
+plotly
