@@ -106,7 +106,7 @@ Interactive Dashboard
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone <your-repo-url>
+git clone 
 cd upi-guard
 ```
 

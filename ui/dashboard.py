@@ -48,20 +48,6 @@ left, right = st.columns([3,2], gap="large")
 # ══════════════════════════════════════════════════════════
 with left:
 
-    st.subheader("🧾 Transaction Identity")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        transaction_id = st.text_input(
-            "Transaction ID",
-            f"TXN{random.randint(10000,99999)}"
-        )
-        sender_id = st.text_input("Sender ID", "S320")
-
-    with col2:
-        receiver_id = st.text_input("Receiver ID", "R420")
-
-    st.divider()
 
     # ── Proper Date + Time (NO manual typing)
     st.subheader("🕒 Transaction Time")
