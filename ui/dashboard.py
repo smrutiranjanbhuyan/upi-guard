@@ -215,10 +215,7 @@ with right:
 
         with st.expander("🔍 Payload Sent to Model"):
             st.json({
-                "transaction_id": transaction_id,
                 "timestamp": timestamp.strftime("%Y-%m-%d %H:%M:%S"),
-                "sender_id": sender_id,
-                "receiver_id": receiver_id,
                 "amount": amount,
                 "transaction_type": transaction_type,
                 "merchant_category": merchant_category,
