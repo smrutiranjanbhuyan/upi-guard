@@ -8,7 +8,8 @@ from sklearn.metrics import (
     classification_report,
     roc_auc_score,
     confusion_matrix,
-    average_precision_score
+    average_precision_score,
+    accuracy_score
 )
 
 from preprocess import build_features
@@ -137,9 +138,11 @@ print("\n================ FINAL TEST EVALUATION ================\n")
 
 roc_auc = roc_auc_score(y_test, test_proba)
 pr_auc = average_precision_score(y_test, test_proba)
+accuracy = accuracy_score(y_test, test_pred)
 
 print(f"ROC-AUC Score       : {roc_auc:.4f}")
 print(f"PR-AUC Score        : {pr_auc:.4f}")
+print(f"Accuracy Score      : {accuracy:.4f}")
 print(f"Final Threshold     : {best_threshold:.2f}")
 
 print("\nClassification Report:\n")
