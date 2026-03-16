@@ -2,14 +2,14 @@
 
 ## Graph-Aware, Cost-Sensitive UPI Fraud Detection System
 
-UPI-Guard++ is a research-grade fraud detection system built on a 100,000 ultra-realistic Indian UPI transaction dataset.  
-It integrates temporal modeling, behavioral profiling, graph centrality features, and cost-sensitive learning into a deployable ML system.
+UPI-Guard++ is a research-grade fraud detection system built using a real-world UPI fraud dataset sourced from Kaggle.  
+It integrates temporal modeling, behavioral profiling, graph centrality features, and cost-sensitive learning into a deployable machine learning system.
 
 ---
 
 ## 🚀 Key Features
 
-- 📊 100K ultra-realistic Indian UPI dataset
+- 📊 UPI fraud dataset sourced from Kaggle
 - 🧠 Graph-based fraud detection (PageRank + Degree Centrality)
 - ⏱ Temporal velocity modeling (1-hour rolling window)
 - 📈 Behavioral anomaly detection (Z-score)
@@ -27,7 +27,7 @@ It integrates temporal modeling, behavioral profiling, graph centrality features
 upi-guard/
 │
 ├── data/
-│   └── upi_100k_ultra_realistic.csv
+│   └── upi_transactions.csv
 │
 ├── model/
 │   ├── fraud_model.pkl
@@ -35,7 +35,6 @@ upi-guard/
 │   └── threshold.txt
 │
 ├── src/
-│   ├── generate_upi_100k.py
 │   ├── preprocess.py
 │   ├── train.py
 │   └── optimize_threshold.py
@@ -54,28 +53,24 @@ upi-guard/
 
 ## 🧪 Dataset Description
 
-The dataset simulates realistic Indian UPI transactions:
+The project uses a **UPI transaction fraud detection dataset sourced from Kaggle**.
 
-- Indian states
-- Major banks
-- Device & network behavior
-- Salary cycle patterns
-- Burst fraud behavior
-- Mule account simulation
-- 1.8–2.5% fraud rate
+The dataset contains transaction records used for machine learning-based fraud detection.
 
-Features include:
+### Features include:
 
 - amount
 - transaction_type
-- sender_state / receiver_state
-- sender_bank / receiver_bank
+- sender_state
+- receiver_state
+- sender_bank
+- receiver_bank
 - device_type
 - network_type
 - account_age_days
 - txn_velocity_1h
 - graph centrality metrics
-- fraud_flag (target)
+- fraud_flag (target variable)
 
 ---
 
@@ -106,7 +101,7 @@ Interactive Dashboard
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone 
+git clone <your_repo_url>
 cd upi-guard
 ```
 
@@ -121,16 +116,6 @@ python -m venv venv
 
 ```bash
 pip install -r requirements.txt
-```
-
----
-
-## 📊 Generate Dataset
-
-```bash
-cd src
-python generate_upi_100k.py
-cd ..
 ```
 
 ---
@@ -205,7 +190,7 @@ The model is evaluated using:
 - Confusion Matrix
 - Cost-based Financial Loss
 
-Target performance on 100K dataset:
+Target performance:
 
 - ROC-AUC: 0.94 – 0.98
 - Fraud Recall: > 90%
@@ -225,7 +210,7 @@ Target performance on 100K dataset:
 
 ## 🎓 Interview Summary
 
-> Built a graph-enhanced, cost-sensitive UPI fraud detection system trained on a 100K ultra-realistic Indian transaction dataset achieving ~97% ROC-AUC, deployed via FastAPI and Streamlit dashboard.
+Built a graph-enhanced, cost-sensitive UPI fraud detection system trained on a Kaggle UPI fraud dataset achieving ~97% ROC-AUC, deployed via FastAPI and Streamlit dashboard.
 
 ---
 
