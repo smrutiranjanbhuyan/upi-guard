@@ -1,7 +1,3 @@
-# ==========================================================
-# UPI-Guard++ Preprocessing & Feature Engineering
-# 100K Ultra-Realistic Indian UPI Dataset
-# ==========================================================
 
 import pandas as pd
 import numpy as np
