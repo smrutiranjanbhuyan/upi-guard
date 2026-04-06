@@ -1,7 +1,3 @@
-# ==========================================================
-# UPI-Guard++ Threshold Optimization
-# Cost-Sensitive Decision Boundary
-# ==========================================================
 
 import pandas as pd
 import numpy as np
@@ -74,8 +70,10 @@ for t in thresholds:
 print("Best Threshold:", round(best_threshold, 3))
 print("Minimum Expected Loss:", lowest_loss)
 
-# Save threshold
-with open("../model/threshold.txt", "w") as f:
-    f.write(str(best_threshold))
+# ----------------------------------------------------------
+# SAVE THRESHOLD AS PKL FILE
+# ----------------------------------------------------------
 
-print("Threshold saved to model/threshold.txt")
+with open("../model/threshold.pkl", "wb") as f:
+    pickle.dump(best_threshold, f)
+
