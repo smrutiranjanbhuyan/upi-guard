@@ -168,7 +168,10 @@ hr { border-color: var(--border) !important; }
 """, unsafe_allow_html=True)
 
 # ── Constants (dataset-aligned) ───────────────────────────
-API_BASE = "http://127.0.0.1:8000"
+API_BASE = st.secrets.get(
+    "API_BASE",
+    "http://127.0.0.1:8000"
+)
 
 STATES    = ["Delhi","Maharashtra","Karnataka","Tamil Nadu","Gujarat",
              "Uttar Pradesh","Telangana","West Bengal","Rajasthan","Odisha"]
