@@ -1,8 +1,3 @@
-# ==========================================================
-# UPI-Guard++ | Production-Ready FastAPI Backend v2.0
-# Fixed: threshold.pkl (was .txt), single-row-safe features,
-#        Pydantic schema, CORS for Streamlit, /health endpoint
-# ==========================================================
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
