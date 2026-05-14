@@ -1,4 +1,7 @@
-
+# ==========================================================
+# UPI-Guard++ | Real ML-Connected Fraud Detection Console
+# Calls FastAPI /predict — NO fake heuristics
+# ==========================================================
 
 import streamlit as st
 import requests
@@ -7,7 +10,6 @@ from datetime import datetime
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
-
 
 # ── Page config ───────────────────────────────────────────
 st.set_page_config(
@@ -166,10 +168,7 @@ hr { border-color: var(--border) !important; }
 """, unsafe_allow_html=True)
 
 # ── Constants (dataset-aligned) ───────────────────────────
-API_BASE = st.secrets.get(
-    "API_BASE",
-    "http://127.0.0.1:8000"
-)
+API_BASE = "http://127.0.0.1:8000"
 
 STATES    = ["Delhi","Maharashtra","Karnataka","Tamil Nadu","Gujarat",
              "Uttar Pradesh","Telangana","West Bengal","Rajasthan","Odisha"]
@@ -252,12 +251,23 @@ with left:
     with c1:
         amount = st.number_input("Amount (₹)", min_value=1.0, value=20000.0, step=1000.0)
     with c2:
-        txn_type = st.selectbox("Type", TXN_TYPES)
+        txn_type = st.text_input("Type", value="P2P", placeholder="P2P / P2M",
+                                 help="P2P = Person-to-Person  |  P2M = Person-to-Merchant")
     with c3:
-        merchant = st.selectbox("Merchant", MERCHANTS)
+        merchant = st.text_input("Merchant Category", value="Food",
+                                 placeholder="Food, Retail…",
+                                 help="Options: " + ", ".join(MERCHANTS))
 
-    sender_id   = st.text_input("Sender ID",   value="USER_042", placeholder="USER_xxx")
-    receiver_id = st.text_input("Receiver ID", value="USER_899", placeholder="USER_xxx")
+    c1, c2 = st.columns(2)
+    with c1:
+        sender_id   = st.text_input("Sender ID",   value="USER_042", placeholder="USER_xxx")
+    with c2:
+        receiver_id = st.text_input("Receiver ID", value="USER_899", placeholder="USER_xxx")
+
+    if txn_type.strip().upper() not in TXN_TYPES:
+        st.caption(f"⚠ Unrecognised type — valid: {', '.join(TXN_TYPES)}")
+    if merchant.strip() not in MERCHANTS:
+        st.caption(f"⚠ Unrecognised merchant — valid: {', '.join(MERCHANTS)}")
 
     st.divider()
 
@@ -265,14 +275,22 @@ with left:
     st.markdown('<div class="card-title">🌍 Geography & Banking</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     with c1:
-        s_state = st.selectbox("Sender State",  STATES, index=9)
-        s_bank  = st.selectbox("Sender Bank",   BANKS,  index=0)
+        s_state = st.text_input("Sender State",  value="Odisha",
+                                placeholder="e.g. Odisha",
+                                help="Options: " + ", ".join(STATES))
+        s_bank  = st.text_input("Sender Bank",   value="SBI",
+                                placeholder="e.g. SBI",
+                                help="Options: " + ", ".join(BANKS))
     with c2:
-        r_state = st.selectbox("Receiver State", STATES, index=1)
-        r_bank  = st.selectbox("Receiver Bank",  BANKS,  index=1)
+        r_state = st.text_input("Receiver State", value="Maharashtra",
+                                placeholder="e.g. Maharashtra",
+                                help="Options: " + ", ".join(STATES))
+        r_bank  = st.text_input("Receiver Bank",  value="HDFC",
+                                placeholder="e.g. HDFC",
+                                help="Options: " + ", ".join(BANKS))
 
-    cross = s_state != r_state
-    interbank = s_bank != r_bank
+    cross     = s_state.strip() != r_state.strip()
+    interbank = s_bank.strip()  != r_bank.strip()
     flags = []
     if cross:     flags.append("⚡ Cross-State")
     if interbank: flags.append("🏦 Inter-Bank")
@@ -285,16 +303,23 @@ with left:
     st.markdown('<div class="card-title">📱 Device & Network</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     with c1:
-        device  = st.selectbox("Device", DEVICES)
+        device  = st.text_input("Device Type",  value="Android",
+                                placeholder="Android / iOS / Web",
+                                help="Options: " + ", ".join(DEVICES))
     with c2:
-        network = st.selectbox("Network", NETWORKS)
+        network = st.text_input("Network Type", value="4G",
+                                placeholder="4G / 5G / WiFi",
+                                help="Options: " + ", ".join(NETWORKS))
 
     st.divider()
 
     # ── Behavioural signals ───────────────────────────────
     st.markdown('<div class="card-title">📊 Behavioural Signals</div>', unsafe_allow_html=True)
-    acct_age  = st.slider("Account Age (days)", 1, 1500, 45)
-    velocity  = st.slider("Txn Velocity (last 1h)", 0, 20, 3)
+    c1, c2 = st.columns(2)
+    with c1:
+        acct_age = st.number_input("Account Age (days)", min_value=1, max_value=5000, value=45, step=1)
+    with c2:
+        velocity = st.number_input("Txn Velocity (last 1h)", min_value=0, max_value=100, value=3, step=1)
 
     with st.expander("Advanced: sender historical stats (improves accuracy)"):
         c1, c2, c3 = st.columns(3)
@@ -311,7 +336,7 @@ with left:
             pagerank  = st.number_input("Sender PageRank",     value=0.0, format="%.6f")
 
     st.markdown("<br>", unsafe_allow_html=True)
-    run = st.button("🚀  RUN FRAUD CLASSIFICATION", use_container_width=True)
+    run = st.button("🚀  RUN FRAUD CLASSIFICATION", width='stretch')
 
 # ══════════════════════════════════════════════════════════
 # CLASSIFY
@@ -442,7 +467,7 @@ with right:
             plot_bgcolor="rgba(0,0,0,0)",
             font={"color": "#e2e8f0"}
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
         # ── Key metrics ───────────────────────────────────
         c1, c2, c3 = st.columns(3)
@@ -481,10 +506,10 @@ with right:
                 "dec": "Decision", "risk": "Risk", "time": "Time"
             })
             .style
-            .applymap(color_dec, subset=["Decision"])
+            .map(color_dec, subset=["Decision"])
             .format({"Prob": "{:.4f}"})
         )
-        st.dataframe(styled, use_container_width=True, height=220)
+        st.dataframe(styled, width='stretch', height=220)
 
         # Mini bar chart of probabilities
         if len(hist) >= 2:
@@ -509,8 +534,8 @@ with right:
                 yaxis=dict(gridcolor="#1e2d40", range=[0, 1]),
                 showlegend=False,
             )
-            st.plotly_chart(fig2, use_container_width=True)
+            st.plotly_chart(fig2, width='stretch')
 
-        if st.button("🗑  Clear History", use_container_width=False):
+        if st.button("🗑  Clear History", width='content'):
             st.session_state.history = []
             st.rerun()
