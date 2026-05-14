@@ -7,7 +7,7 @@ from datetime import datetime
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
-import os
+
 
 # ── Page config ───────────────────────────────────────────
 st.set_page_config(
@@ -166,7 +166,7 @@ hr { border-color: var(--border) !important; }
 """, unsafe_allow_html=True)
 
 # ── Constants (dataset-aligned) ───────────────────────────
-API_BASE = os.getenv(
+API_BASE = st.secrets.get(
     "API_BASE",
     "http://127.0.0.1:8000"
 )
