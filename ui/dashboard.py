@@ -1,7 +1,3 @@
-# ==========================================================
-# UPI-Guard++ | Real ML-Connected Fraud Detection Console
-# Calls FastAPI /predict — NO fake heuristics
-# ==========================================================
 
 import streamlit as st
 import requests
