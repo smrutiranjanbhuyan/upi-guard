@@ -7,7 +7,7 @@ import networkx as nx
 def build_features(df):
 
     # ------------------------------------------------------
-    # 1️⃣ BASIC CLEANING
+    #  BASIC CLEANING
     # ------------------------------------------------------
 
     df = df.copy()
@@ -19,7 +19,7 @@ def build_features(df):
 
 
     # ------------------------------------------------------
-    # 2️⃣ TEMPORAL FEATURES
+    #  TEMPORAL FEATURES
     # ------------------------------------------------------
 
     df["hour"] = df["timestamp"].dt.hour
@@ -34,7 +34,7 @@ def build_features(df):
     df["is_salary_week"] = (df["timestamp"].dt.day <= 7).astype(int)
 
     # ------------------------------------------------------
-    # 3️⃣ TRANSACTION VELOCITY (FIXED VERSION)
+    #  TRANSACTION VELOCITY (FIXED VERSION)
     # ------------------------------------------------------
 
     df = df.set_index("timestamp")
@@ -53,7 +53,7 @@ def build_features(df):
 
 
     # ------------------------------------------------------
-    # 4️⃣ BEHAVIORAL FEATURES
+    #  BEHAVIORAL FEATURES
     # ------------------------------------------------------
 
     df["sender_mean_amt"] = (
@@ -80,7 +80,7 @@ def build_features(df):
 
 
     # ------------------------------------------------------
-    # 5️⃣ GRAPH FEATURES
+    #  GRAPH FEATURES
     # ------------------------------------------------------
 
     print("Building transaction graph...")
@@ -104,7 +104,7 @@ def build_features(df):
 
 
     # ------------------------------------------------------
-    # 6️⃣ CROSS-STATE FLAG
+    #  CROSS-STATE FLAG
     # ------------------------------------------------------
 
     if "sender_state" in df.columns and "receiver_state" in df.columns:
@@ -114,7 +114,7 @@ def build_features(df):
 
 
     # ------------------------------------------------------
-    # 7️⃣ ENCODING CATEGORICAL FEATURES
+    #  ENCODING CATEGORICAL FEATURES
     # ------------------------------------------------------
 
     categorical_cols = [
@@ -134,7 +134,7 @@ def build_features(df):
 
 
     # ------------------------------------------------------
-    # 8️⃣ FINAL CLEANUP
+    #  FINAL CLEANUP
     # ------------------------------------------------------
 
     df = df.fillna(0)

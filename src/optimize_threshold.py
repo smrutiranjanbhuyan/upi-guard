@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 from preprocess import build_features
 
 # ----------------------------------------------------------
-# 1️⃣ LOAD DATA
+#  LOAD DATA
 # ----------------------------------------------------------
 
 df = pd.read_csv("../data/upi_100k_ultra_realistic.csv")
@@ -26,7 +26,7 @@ X = df.drop(columns=[col for col in drop_cols if col in df.columns])
 y = df["fraud_flag"]
 
 # ----------------------------------------------------------
-# 2️⃣ TRAIN / TEST SPLIT
+#  TRAIN / TEST SPLIT
 # ----------------------------------------------------------
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -34,7 +34,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # ----------------------------------------------------------
-# 3️⃣ LOAD TRAINED MODEL
+#  LOAD TRAINED MODEL
 # ----------------------------------------------------------
 
 model = pickle.load(open("../model/fraud_model.pkl", "rb"))
@@ -44,7 +44,7 @@ y_proba = model.predict_proba(X_test)[:, 1]
 y_true = y_test.values
 
 # ----------------------------------------------------------
-# 4️⃣ COST-SENSITIVE OPTIMIZATION
+#  COST-SENSITIVE OPTIMIZATION
 # ----------------------------------------------------------
 
 thresholds = np.arange(0.1, 0.9, 0.01)
